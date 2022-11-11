@@ -1,0 +1,208 @@
+#include "parser.h"
+/* private variables */
+/* private functions */
+// TODO - clear first word params after successful parse
+void input_clear(word_t *input)
+{
+  input->beg = 0;
+  input->end = 0;
+  input->end_found = 0;
+}
+
+void clear_get_new_command(parser_t *parser)
+{
+  parser->end_string_found = 0;
+  memset(parser->uart_inst->tx_buffer, 0, strlen((char *)parser->uart_inst->tx_buffer));
+  memset(parser->uart_inst->rx_buffer, 0, strlen((char *)parser->uart_inst->rx_buffer));
+}
+
+u8 clear(void *word)
+{
+  memset(word, 0, strlen(word));
+  return 0;
+}
+
+u8 convert_caps_to_reg(u8 caps_symb)
+{
+  return caps_symb + (97 - 65); /* 97 - A, 65 - a */
+}
+
+u8 compare(char *word, const void *text)
+{
+  return memcmp((void *)word, text, strlen(text));
+}
+
+u8 uart_parse_error(parser_t *parser)
+{
+  sprintf((char *)parser->uart_inst->tx_buffer, "ERROR\n");
+  return HAL_UART_Transmit(parser->uart_inst->uart,
+                           (u8 *)parser->uart_inst->tx_buffer,
+                           strlen((char *)parser->uart_inst->tx_buffer),
+                           parser->uart_inst->timeout_ms);
+}
+
+u8 uart_parse_clear(parser_t *jet, word_t *input)
+{
+  jet->end_string_found = 0;
+  input->beg = 0;
+  input->end = 0;
+  input->end_found = 0;
+  input->word_len = 0;
+}
+
+u8 uart_parse(parser_t *parser)
+{
+  u8 word_len = parser->first_word_desc->word_len;
+
+  char word[3][WORD_MAX_LEN] = {
+      0,
+  }; /* create a local array for parsed words */
+
+  if (word_len == 3) /* if first word len is 3 */
+  {
+    sscanf((char *)parser->uart_inst->rx_buffer, "%s %s ", word[0], word[1]); /*get first two words */
+
+    if ((compare(word[0], "set") == 0) && (compare(word[1], "on") == 0))
+    {
+      sscanf((char *)parser->uart_inst->rx_buffer, "set on %d ",
+             &parser->parsed_parameters->on_threshold);
+      uart_send_format(parser->uart_inst, sprintf(parser->uart_inst->tx_buffer,
+                                                  "on threshold is %d\r\n",
+                                                  parser->parsed_parameters->on_threshold));
+      uart_send_ok(parser->uart_inst);
+
+      return TASK_SET_ON_THRESHOLD;
+    }
+
+    else if ((compare(word[0], "get") == 0) && (compare(word[1], "on") == 0))
+    {
+      uart_send_format(parser->uart_inst, sprintf(parser->uart_inst->tx_buffer,
+                                                  "on threshold is %d\r\n",
+                                                  parser->parsed_parameters->on_threshold));
+      uart_send_ok(parser->uart_inst);
+      return TASK_GET_ON_THRESHOLD;
+    }
+
+    else if ((compare(word[0], "set") == 0) && (compare(word[1], "noise") == 0))
+    {
+      sscanf((char *)parser->uart_inst->rx_buffer, "set noise %d ",
+             &parser->parsed_parameters->noise_threshold);
+
+      uart_send_format(parser->uart_inst, sprintf((char *)parser->uart_inst->tx_buffer,
+                                                  "noise threshold is %d\r\n",
+                                                  parser->parsed_parameters->noise_threshold));
+      uart_send_ok(parser->uart_inst);
+      return TASK_SET_NOISE_THRESHOLD;
+    }
+
+    else if ((compare(word[0], "get") == 0) && (compare(word[1], "noise") == 0))
+    {
+
+      uart_send_format(parser->uart_inst, sprintf((char *)parser->uart_inst->tx_buffer,
+                                                  "noise threshold is %d\r\n",
+                                                  parser->parsed_parameters->noise_threshold));
+      uart_send_ok(parser->uart_inst);
+      return TASK_GET_NOISE_THRESHOLD;
+    }
+
+    else if ((compare(word[0], "get") == 0) && (compare(word[1], "smooth") == 0))
+    {
+
+      uart_send_format(parser->uart_inst, sprintf((char *)parser->uart_inst->tx_buffer,
+                                                  "smooth value is %d\r\n",
+                                                  parser->parsed_parameters->smooth_val));
+      uart_send_ok(parser->uart_inst);
+      return TASK_GET_SMOOTH_VAL;
+    }
+    else if ((compare(word[0], "set") == 0) && (compare(word[1], "smooth") == 0))
+    {
+      sscanf((char *)parser->uart_inst->rx_buffer, "set smooth %d ",
+             &parser->parsed_parameters->smooth_val);
+
+      uart_send_format(parser->uart_inst, sprintf((char *)parser->uart_inst->tx_buffer,
+                                                  "smooth value is %d\r\n",
+                                                  parser->parsed_parameters->smooth_val));
+      uart_send_ok(parser->uart_inst);
+      return TASK_SET_SMOOTH_VAL;
+    }
+    
+    else
+    {
+      uart_send_error(parser->uart_inst);
+      return 0xFF;
+    }
+  }
+
+  else if (word_len == 4) /* first word == "help" */
+  {
+    sscanf((char *)parser->uart_inst->rx_buffer, "%s", word[0]);
+    if (compare(word[0], "help") == 0)
+    {
+      uart_send(parser->uart_inst, "list of commands:\r\n"
+      "help - call this help manual\r\n"
+      "set on - set new number of registred pulses to start\r\n"
+      "get on - get present number of registred pulses to start\r\n"
+      "set noise - set new value of \"noisy\" pulses to skip motor start,\r\n"
+      "must be less than pulses to start (use \"get on\" to check it)\r\n"
+      "get noise - get new value of \"noisy\" pulses to skip motor start\r\n"
+      "set smooth - set new raw data value, referenced as zero level\r\n"
+      "get smooth - get new raw data value, referenced as zero level\r\n"
+      "open - open valve\r\n"
+      "close - close valve\r\n"
+      "stop - stop motor\r\n"
+      
+      );
+      return TASK_HELP;
+    }
+    else if(compare(word[0], "open") == 0)
+    {
+      return TASK_OPEN;
+    }
+    else if(compare(word[0], "stop") == 0)
+    {
+      return TASK_STOP;
+    }
+    else if(compare(word[0], "data") == 0)
+    {
+      uart_send(parser->uart_inst, "logdata:\r\n");
+      u32 *base = 0x0800C800;
+      for(u32 i = 0; i<= 1000; i++)
+      {
+      uart_send(parser->uart_inst, base);
+      base++;
+      }
+      uart_send(parser->uart_inst, "\r\n\r\n");
+     
+    }
+    else
+    {
+      return 0xFF;
+    }
+  }
+
+  else if(word_len == 5)
+  {
+    sscanf((char *)parser->uart_inst->rx_buffer, "%s", word[0]);
+    if (compare(word[0], "close") == 0)
+    {
+      return TASK_CLOSE;
+    }
+  }
+
+
+
+  else if (word_len == 7)
+  {
+    sscanf((char *)parser->uart_inst->rx_buffer, "%s", word[0]);
+    if (compare(word[0], "restart") == 0)
+    {
+      HAL_NVIC_SystemReset();
+      uart_send_ok(parser->uart_inst);
+    }
+  }
+  else
+  {
+    uart_send_error(parser->uart_inst);
+    return 0xFF;
+  }
+}

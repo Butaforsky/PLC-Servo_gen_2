@@ -1,0 +1,31 @@
+#ifndef __TASKS_H
+#define __TASKS_H
+
+/* defines */
+typedef enum TASK
+{
+  TASK_HELP = 1,
+
+  TASK_SET_ON_THRESHOLD,
+  TASK_GET_ON_THRESHOLD,
+
+  TASK_SET_NOISE_THRESHOLD,
+  TASK_GET_NOISE_THRESHOLD,
+
+  TASK_SET_SMOOTH_VAL,
+  TASK_GET_SMOOTH_VAL,
+
+  TASK_OPEN,
+  TASK_CLOSE,
+  TASK_STOP,
+
+  TASK_MUTE,
+  TASK_UNMUTE,
+
+  TASK_ERROR,
+} TASKS;
+
+
+
+
+#endif

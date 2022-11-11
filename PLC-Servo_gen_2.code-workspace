@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "cmsis_os.h": "c",
+            "main.h": "c",
+            "uart_lib.h": "c"
+        },
+        "editor.acceptSuggestionOnEnter": "on"
+    },
+    "extensions": {}
+}

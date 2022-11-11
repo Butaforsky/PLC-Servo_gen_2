@@ -1,0 +1,75 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Michael Gostev, KBAH, LIC=8MZI6-DAKZZ-F1VPT-RD7BS-XSR4A-DHYDS
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.16
+Assembler:       Armasm.exe V6.16
+Linker/Locator:  ArmLink.exe V6.16
+Library Manager: ArmAr.exe V6.16
+Hex Converter:   FromElf.exe V6.16
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\prizr\Documents\GitHub\F401\PLC-Servo_gen_2\MDK-ARM\PLC-Servo.uvprojx
+Project File Date:  11/12/2022
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'PLC-Servo'
+../Core/Src/main.c(316): error: use of undeclared identifier 'RELAY_GPIO_Port'
+      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
+                          ^
+../Core/Src/main.c(316): error: use of undeclared identifier 'RELAY_Pin'
+      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
+                                           ^
+../Core/Src/main.c(332): error: use of undeclared identifier 'RELAY_GPIO_Port'
+      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
+                          ^
+../Core/Src/main.c(332): error: use of undeclared identifier 'RELAY_Pin'
+      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
+                                           ^
+../Core/Src/main.c(362): warning: implicit declaration of function 'CDC_Transmit_FS' is invalid in C99 [-Wimplicit-function-declaration]
+  CDC_Transmit_FS(TXBuffer, 7);
+  ^
+1 warning and 4 errors generated.
+compiling main.c...
+"PLC-Servo\PLC-Servo.axf" - 4 Error(s), 1 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
+                ARM.CMSIS.5.9.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.6.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.16.0.pack
+                Keil.STM32F4xx_DFP.2.16.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_PLC-Servo
+  C:\Users\prizr\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include
+  C:\Users\prizr\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.6.0
+      Include file:  CMSIS\Core\Include\tz_context.h
+Target not created.
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
