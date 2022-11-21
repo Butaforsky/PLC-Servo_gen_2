@@ -7,6 +7,7 @@
 #include "uart_lib.h"
 #include "tasks.h"
 #include "main.h"
+#include "usart.h"
 
 #define WORD_MAX_LEN 12
 
@@ -21,10 +22,15 @@ typedef struct word
 
 typedef struct parsed_data
 {
-  u32 on_threshold;
-  u32 noise_threshold;
-  u32 smooth_val;
+  i32 x_pos, y_pos, z_pos;
+  i32 x_dir, y_dir, z_dir;
+  i16 x_arr, y_arr, z_arr;
+  u8 relay_1_state, relay_2_state, relay_3_state;
+  
+
 } data_t;
+
+
 
 typedef struct parser
 {
@@ -35,6 +41,8 @@ typedef struct parser
   u8 mute;
 } parser_t;
 
+
+void parser_uart_callback(UART_HandleTypeDef *huart, parser_t *parser);
 void input_clear(word_t *input);
 
 u8 uart_parse(parser_t *parser);

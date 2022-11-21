@@ -17,34 +17,115 @@ Library Manager: ArmAr.exe V6.16
 Hex Converter:   FromElf.exe V6.16
 CPU DLL:         SARMCM3.DLL V5.36.0.0
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Target DLL:      CMSIS_AGDI.dll V1.33.0.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 C:\Users\prizr\Documents\GitHub\F401\PLC-Servo_gen_2\MDK-ARM\PLC-Servo.uvprojx
-Project File Date:  11/12/2022
+Project File Date:  11/21/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'PLC-Servo'
-../Core/Src/main.c(316): error: use of undeclared identifier 'RELAY_GPIO_Port'
-      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
-                          ^
-../Core/Src/main.c(316): error: use of undeclared identifier 'RELAY_Pin'
-      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
-                                           ^
-../Core/Src/main.c(332): error: use of undeclared identifier 'RELAY_GPIO_Port'
-      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
-                          ^
-../Core/Src/main.c(332): error: use of undeclared identifier 'RELAY_Pin'
-      if(HAL_GPIO_ReadPin(RELAY_GPIO_Port, RELAY_Pin) == GPIO_PIN_SET)
-                                           ^
-../Core/Src/main.c(362): warning: implicit declaration of function 'CDC_Transmit_FS' is invalid in C99 [-Wimplicit-function-declaration]
-  CDC_Transmit_FS(TXBuffer, 7);
-  ^
-1 warning and 4 errors generated.
+Note: source file '..\Drivers\KBAH\tasks.c' - object file renamed from 'PLC-Servo\tasks.o' to 'PLC-Servo\tasks_1.o'.
+assembling startup_stm32f401xc.s...
+compiling stm32f4xx_hal_timebase_tim.c...
+compiling stm32f4xx_it.c...
+compiling tim.c...
+compiling gpio.c...
+compiling dma.c...
+compiling stm32f4xx_hal_msp.c...
+compiling usart.c...
+compiling stm32f4xx_hal_rcc.c...
 compiling main.c...
-"PLC-Servo\PLC-Servo.axf" - 4 Error(s), 1 Warning(s).
+compiling stm32f4xx_hal_rcc_ex.c...
+compiling freertos.c...
+compiling stm32f4xx_hal_flash.c...
+compiling stm32f4xx_hal_flash_ramfunc.c...
+compiling stm32f4xx_hal_flash_ex.c...
+compiling stm32f4xx_hal_pwr.c...
+compiling stm32f4xx_hal_gpio.c...
+compiling stm32f4xx_hal_dma_ex.c...
+compiling stm32f4xx_hal_pwr_ex.c...
+compiling stm32f4xx_hal.c...
+compiling stm32f4xx_hal_cortex.c...
+compiling stm32f4xx_hal_dma.c...
+compiling stm32f4xx_hal_exti.c...
+compiling stm32f4xx_hal_tim_ex.c...
+compiling system_stm32f4xx.c...
+../Drivers/KBAH/DRV8255.c(218): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+1 warning generated.
+compiling DRV8255.c...
+../Drivers/KBAH/parser.c(7): warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+data_t parsed_data = {.x_dir = 0, .x_pos = 0, .y_dir = 0, .y_dir = 0, .z_dir = 0, .z_pos = 0};
+                                                                   ^
+../Drivers/KBAH/parser.c(7): note: previous initialization is here
+data_t parsed_data = {.x_dir = 0, .x_pos = 0, .y_dir = 0, .y_dir = 0, .z_dir = 0, .z_pos = 0};
+                                                       ^
+../Drivers/KBAH/parser.c(94): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../Drivers/KBAH/parser.c(111): warning: format specifies type 'unsigned int *' but the argument has type 'i16 *' (aka 'short *') [-Wformat]
+             &parser->parsed_parameters->x_arr);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Drivers/KBAH/parser.c(118): warning: format specifies type 'unsigned int *' but the argument has type 'i16 *' (aka 'short *') [-Wformat]
+       &parser->parsed_parameters->z_arr);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Drivers/KBAH/parser.c(125): warning: format specifies type 'unsigned int *' but the argument has type 'i16 *' (aka 'short *') [-Wformat]
+       &parser->parsed_parameters->y_arr);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Drivers/KBAH/parser.c(131): warning: format specifies type 'int *' but the argument has type 'u8 *' (aka 'unsigned char *') [-Wformat]
+      &parser->parsed_parameters->relay_1_state);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Drivers/KBAH/parser.c(137): warning: format specifies type 'int *' but the argument has type 'u8 *' (aka 'unsigned char *') [-Wformat]
+      sscanf((char *)parser->uart_inst->rx_buffer, "set relay_2 %d", &parser->parsed_parameters->relay_2_state);
+                                                                ~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                                %s
+../Drivers/KBAH/parser.c(143): warning: format specifies type 'int *' but the argument has type 'u8 *' (aka 'unsigned char *') [-Wformat]
+      sscanf((char *)parser->uart_inst->rx_buffer, "set relay_3 %d", &parser->parsed_parameters->relay_3_state);
+                                                                ~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                                %s
+8 warnings generated.
+compiling parser.c...
+../Drivers/KBAH/uart_lib.c(23): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  sprintf((char *)uart->tx_buffer, string_to_send);
+                                   ^~~~~~~~~~~~~~
+../Drivers/KBAH/uart_lib.c(23): note: treat the string as an argument to avoid this
+  sprintf((char *)uart->tx_buffer, string_to_send);
+                                   ^
+                                   "%s", 
+../Drivers/KBAH/uart_lib.c(35): warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+  sprintf((char *)uart->tx_buffer, string_to_send);
+                                   ^~~~~~~~~~~~~~
+../Drivers/KBAH/uart_lib.c(35): note: treat the string as an argument to avoid this
+  sprintf((char *)uart->tx_buffer, string_to_send);
+                                   ^
+                                   "%s", 
+../Drivers/KBAH/uart_lib.c(39): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../Drivers/KBAH/uart_lib.c(47): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../Drivers/KBAH/uart_lib.c(60): warning: incompatible pointer types passing 'UART_HandleTypeDef **' (aka 'struct __UART_HandleTypeDef **') to parameter of type 'UART_HandleTypeDef *' (aka 'struct __UART_HandleTypeDef *'); remove & [-Wincompatible-pointer-types]
+  return HAL_UART_Transmit(&uart->uart, (u8 *)uart->tx_buffer,
+                           ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc\stm32f4xx_hal_uart.h(722): note: passing argument to parameter 'huart' here
+HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                                                        ^
+../Drivers/KBAH/uart_lib.c(68): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+6 warnings generated.
+compiling uart_lib.c...
+compiling stm32f4xx_hal_uart.c...
+compiling stm32f4xx_hal_tim.c...
+linking...
+Program Size: Code=20106 RO-data=1122 RW-data=876 ZI-data=17780  
+FromELF: creating hex file...
+"PLC-Servo\PLC-Servo.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -68,8 +149,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

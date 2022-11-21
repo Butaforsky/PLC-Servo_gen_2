@@ -1,11 +1,15 @@
 #ifndef __UART_LIB_H
 #define __UART_LIB_H
 /* defines */
-#define UART_TX_LEN 1200
-#define UART_RX_LEN 300
+#define UART_TX_LEN 600
+#define UART_RX_LEN 100
 /* includes */
+#include <stdio.h>
+#include "string.h"
 #include "short_types.h"
 #include "main.h"
+
+#include "usart.h"
 
 
 /* typedef structs */
@@ -20,7 +24,6 @@ typedef struct uart_param
   u8 byte[1];
   u8 tail;
   
-
 } uart_t;
 
 
@@ -54,5 +57,6 @@ u8 uart_send_dma(uart_t *uart, char *string_to_send);
 u8 uart_send_format(uart_t *uart, int* string_to_send);
 u8 uart_send_ok(uart_t *uart);
 u8 uart_send_error(uart_t *uart);
+u8 uart_send_r(uart_t *uart);
 
 #endif  
